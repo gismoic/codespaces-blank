@@ -7,7 +7,7 @@
 
 fill_ram:
 
-    mov ram+50, %rax
+    mov $ram+0x50, %rax
     jmp .indirect
     
 .indirect:
@@ -15,7 +15,7 @@ fill_ram:
     movb $0xFF, (%rax)
     inc %rax
 
-    cmp ram+58, %rax
+    cmp $ram+0x59, %rax
     jnz .indirect
     
     ret

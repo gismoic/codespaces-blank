@@ -16,7 +16,7 @@ fill_ram:
     cmp %rdi, %rax
     jne .Loop
 
-    mov %eax, ram+50
+    mov %eax, ram+0x50
 
     ret
 
