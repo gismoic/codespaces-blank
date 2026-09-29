@@ -11,14 +11,16 @@ len2 = . - msg2
 .section .bss
 .lcomm s1, 256
 .lcomm s2, 256
+
+.global out
 .lcomm out, 256
 
 
 .section .text
 
-.global _start
+.global begin
 
-_start:
+begin:
     #write the first message
     mov $1, %rax
     mov $1, %rdi
@@ -49,32 +51,41 @@ _start:
 
     mov $s1, %rdi
     mov $s2, %rsi
-    mov $0, %r10
+    mov $10, %r10
+    xor %r9, %r9
 
     jmp ._Xoring
-
 
 ._Xoring:
     
     mov (%rdi), %al
-    mov (%rsi), %bl
+    cmp $10, %al        #checks for '\n' in the first byte, the end of s1           
+    je .exit
 
-    xor %bl, %al
+    mov (%rdi), %al
+    mov (%rsi), %dl
 
-    inc %r10
-    inc %rdi
-
+    xor %dl, %al
+    mov $8, %r10 
+.bit_manip:
     mov %al, %r8b
+
+    and $1, %r8
+
     add %r8, %r9
+    shr $1, %al
+    dec %r10
+    jnz .bit_manip
 
-    cmp $10, %r10
-    jnz ._Xoring
+    inc %rdi
+    inc %rsi
+    jmp ._Xoring
 
-    mov %r9, out+1
+.exit:
+    
+    mov %r9b, out
+    ret
 
-    mov $60, %rax
-    mov $0, %rdi
-    syscall
 
 .section .note.GNU-stack, "", @progbits
 

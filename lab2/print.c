@@ -2,11 +2,12 @@
 #include<stdio.h>
 
 extern unsigned char out[];
+extern void begin(void);
 
 int main(void){
 
-    printf("HELP\n");
-    printf("%02x", out[0]);
+    begin();
+    printf("%d\n", out[0]);
 
     return 0;
 }

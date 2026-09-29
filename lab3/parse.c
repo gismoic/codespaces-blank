@@ -1,6 +1,8 @@
 #include<stdio.h>
+#include<math.h>
 
 unsigned char containter[99];
+unsigned int integers[99];
 
 int main(int *argc, char **argv){
 
@@ -16,6 +18,25 @@ int main(int *argc, char **argv){
 
     for(int i = 0; i < file_size; i++){
         printf("%c", containter[i]);
+    }
+
+    int num_of_places = 0;
+    int integer_index = 0;
+    char tmp[5];
+
+    for(int i = 0; i < file_size; i++){
+        if(containter[i] == '\n'){
+            int new_Num = 0;
+            for(int j = 0; j < num_of_places; j++){
+                new_Num += tmp[j]*(powf(10,num_of_places-j));
+            }
+            integers[integer_index] = new_Num;
+            integer_index++;
+            num_of_places = 0;
+        }else{
+            tmp[num_of_places] = (int)containter[i];
+            num_of_places++;
+        }
     }
 
     return 0;
