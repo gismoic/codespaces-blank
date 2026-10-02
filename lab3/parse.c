@@ -1,8 +1,15 @@
 #include<stdio.h>
-#include<math.h>
 
 unsigned char containter[99];
 unsigned int integers[99];
+
+static int pow(int base, int power){
+    int tmp = 0;
+    for(int i = 0; i < power; i++){
+        tmp *= base;
+    }
+    return tmp;
+}
 
 int main(int *argc, char **argv){
 
@@ -28,7 +35,7 @@ int main(int *argc, char **argv){
         if(containter[i] == '\n'){
             int new_Num = 0;
             for(int j = 0; j < num_of_places; j++){
-                new_Num += tmp[j]*(powf(10,num_of_places-j));
+                new_Num += tmp[j]*(pow(10,num_of_places-j));
             }
             integers[integer_index] = new_Num;
             integer_index++;
