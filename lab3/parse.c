@@ -1,17 +1,20 @@
 #include<stdio.h>
 
-unsigned char containter[99];
+unsigned char containter[999];
 unsigned int integers[99];
 
-static int pow(int base, int power){
-    int tmp = 0;
+extern int _Sum(int *ints, int count);
+
+static int powO(int base, int power){
+    int tmp = 1;
+
     for(int i = 0; i < power; i++){
         tmp *= base;
     }
     return tmp;
 }
 
-int main(int *argc, char **argv){
+int main(int argc, char **argv){
 
     FILE* file = fopen("data.txt", "r");
     if(!file){printf("Something is wrong\n"); return 1;}
@@ -23,28 +26,38 @@ int main(int *argc, char **argv){
     rewind(file);
     fread(containter, 1, file_size, file);
 
-    for(int i = 0; i < file_size; i++){
-        printf("%c", containter[i]);
-    }
-
     int num_of_places = 0;
     int integer_index = 0;
-    char tmp[5];
+    int tmp_index = 0;
+    int tmp[9999];
 
-    for(int i = 0; i < file_size; i++){
-        if(containter[i] == '\n'){
+    printf("FILE SIZE: %d", file_size);
+
+    for(int i = 0; i < file_size+1; i++){
+
+        if((i == file_size) || (containter[i] == '\n')){
             int new_Num = 0;
-            for(int j = 0; j < num_of_places; j++){
-                new_Num += tmp[j]*(pow(10,num_of_places-j));
+            
+            for(int j = 0; j <= num_of_places; j++){
+                new_Num += tmp[tmp_index + j]*(powO(10,num_of_places-j-1));
             }
+
+            tmp_index += num_of_places;
+
             integers[integer_index] = new_Num;
             integer_index++;
             num_of_places = 0;
         }else{
-            tmp[num_of_places] = (int)containter[i];
+            tmp[num_of_places + tmp_index] = ((int)containter[i]-48);
             num_of_places++;
         }
     }
+
+    int intCount = 0;
+    for(int i = 0; integers[i] != 0; i++){intCount++;};
+    
+
+    printf("\nCOUNT:%d SUM:%d\n", intCount, _Sum(integers, intCount));
 
     return 0;
 }
