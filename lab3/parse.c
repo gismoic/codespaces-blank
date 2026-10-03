@@ -47,6 +47,9 @@ int main(int argc, char **argv){
             integers[integer_index] = new_Num;
             integer_index++;
             num_of_places = 0;
+            if(i == file_size){
+                integers[integer_index+1] = -1;
+            }
         }else{
             tmp[num_of_places + tmp_index] = ((int)containter[i]-48);
             num_of_places++;
@@ -54,10 +57,10 @@ int main(int argc, char **argv){
     }
 
     int intCount = 0;
-    for(int i = 0; integers[i] != 0; i++){intCount++;};
+    for(int i = 0; integers[i] != -1; i++){intCount++;};
     
 
-    printf("\nCOUNT:%d SUM:%d\n", intCount, _Sum(integers, intCount));
+    printf("\nCOUNT:%d SUM:%d\n", intCount-1, _Sum(integers, intCount-1));
 
     return 0;
 }
