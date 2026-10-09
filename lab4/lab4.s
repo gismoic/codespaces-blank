@@ -18,8 +18,8 @@ len:
     .global begin
 
 begin:
-    movl $0,%ecx #container for largest number
-    movl Numbers,%ebx #pointer to begining of array
+    movl $0,%ecx #keeps track of loop count
+    movl Numbers,%ebx #first value from the beginning of the array
 
 test:
     cmpl len, %ecx
