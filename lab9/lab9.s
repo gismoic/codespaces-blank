@@ -15,116 +15,116 @@ main:
 
     #initilize device
     mov $0b10000000,%al 
-    mov $0x643, %DX 
-    out %AL, %DX
+    mov $0x643, %dx 
+    out %al, %dx
 
-    mov $0x640, %DX #puts device address, Configured to send data from data bus to port A
-    mov $0, %SI
+    mov $0x640, %dx #puts device address, Configured to send data from data bus to port A
+    mov $0, %si
     
-    mov %SI, %AL
-    out %AL, %DX #we are now interfacing the first segment
-    mov $0, %CX
+    mov %si, %al
+    out %al, %dx #we are now interfacing the first segment
+    mov $0, %cx
 
     jmp .loop_to_left
 
 .refresh_L:
-    inc %DI
+    inc %di
 
 .loop_to_left:
-    cmp $5, %DI
+    cmp $5, %di
     jnz .refresh_L
 
-    cmp $5, %CX
+    cmp $5, %cx
     jnz .build_left
     
-    mov $7, %SI
-    mov $0, %DI
+    mov $7, %si
+    mov $0, %di
     jmp .loop_to_right
 
 .refresh_R:
-    inc %DI
+    inc %di
 
 .loop_to_right:
-    cmp $5, %DI
+    cmp $5, %di
     jnz .refresh_R
 
-    cmp $10, %CX
+    cmp $10, %cx
     jnz .build_right
     
-    mov $0, %SI
-    mov $0, %DI
-    mov $0, %CX
+    mov $0, %si
+    mov $0, %di
+    mov $0, %cx
     jmp .build_left
 
 
 .build_left:
 
-    mov $0x641, %DX
-    mov 0, %AL
-    out %AL, %DX
+    mov $0x641, %dx
+    mov 0, %al
+    out %al, %dx
 
-    mov $0x641, %DX
-    mov S, %AL
-    out %AL, %DX
+    mov $0x641, %dx
+    mov S, %al
+    out %al, %dx
 
-    mov $0x640, %DX
-    mov (%SI), %AL
-    out %AL, %DX
+    mov $0x640, %dx
+    mov (%si), %al
+    out %al, %dx
 
-    mov $0x641, %DX
-    mov H, %AL
-    out %AL, %DX
+    mov $0x641, %dx
+    mov H, %al
+    out %al, %dx
 
-    mov $0x640, %DX
-    mov 1(%SI), %AL
-    out %AL, %DX
+    mov $0x640, %dx
+    mov 1(%si), %al
+    out %al, %dx
 
-    mov $0x641, %DX
-    mov E, %AL
-    out %AL, %DX
+    mov $0x641, %dx
+    mov E, %al
+    out %al, %dx
 
-    mov $0x640, %DX
-    mov 2(%SI), %AL
-    out %AL, %DX
+    mov $0x640, %dx
+    mov 2(%si), %al
+    out %al, %dx
 
-    inc %CX
+    inc %cx
 
-    inc %SI
+    inc %si
 
     jmp .loop_to_left
 
 .build_right:
 
-    mov $0x641, %DX
-    mov 0, %AL
-    out %AL, %DX
+    mov $0x641, %dx
+    mov 0, %al
+    out %al, %dx
 
-    mov $0x641, %DX
-    mov S, %AL
-    out %AL, %DX
-
-    mov $0x640, %DX
-    mov (%SI), %AL
-    out %AL, %DX
-
-    mov $0x641, %DX
-    mov H, %AL
-    out %AL, %DX
+    mov $0x641, %dx
+    mov S, %al
+    out %al, %dx
 
     mov $0x640, %DX
-    mov -1(%SI), %AL
-    out %AL, %DX
+    mov (%si), %al
+    out %al, %dx
 
-    mov $0x641, %DX
-    mov E, %AL
-    out %AL, %DX
+    mov $0x641, %dx
+    mov H, %al
+    out %al, %dx
 
-    mov $0x640, %DX
-    mov -2(%SI), %AL
-    out %AL, %DX
+    mov $0x640, %dx
+    mov -1(%si), %al
+    out %al, %dx
+
+    mov $0x641, %dx
+    mov E, %al
+    out %al, %dx
+
+    mov $0x640, %dx
+    mov -2(%si), %al
+    out %al, %dx
     
-    inc %CX
+    inc %cx
 
-    dec %SI
+    dec %si
 
     jmp .loop_to_right
